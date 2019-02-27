@@ -220,6 +220,7 @@ A3_Redu_te_SigW <- Redu_te_SigW
 #### 3.1 APPROACH #1: RAF INDEPENDENT APPROACH ####
 ####
 
+
 ### TRAIN FLOOR
 
 # Cross Validation 
@@ -240,6 +241,7 @@ A1_rf_tr_bmtry_fl <- tuneRF(Redu_tr_SigW[A1_rf_tr_vec], Redu_tr_SigW$FLOOR,
 #saveRDS(A1_rf_tr_mdl_fl,"./models/A1_RF_Floor.rds")
 Model_A1_RF_Floor <- readRDS("./models/A1_RF_Floor.rds")
 
+
 ### TRAIN LATITUDE
 
 # Random Forest - search for best mtry
@@ -256,6 +258,7 @@ A1_rf_tr_bmtry_lat <- tuneRF(Redu_tr_SigW[A1_rf_tr_vec], Redu_tr_SigW$LATITUDE,
 #saveRDS(A1_rf_tr_mdl_lat,"./models/A1_RF_Latitude.rds")
 Model_A1_RF_Latitude <- readRDS("./models/A1_RF_Latitude.rds")
 
+
 ### TRAIN LONGITUDE
 
 # Random Forest - search for best mtry
@@ -263,12 +266,14 @@ A1_rf_tr_bmtry_lon <- tuneRF(Redu_tr_SigW[A1_rf_tr_vec], Redu_tr_SigW$LONGITUDE,
                              ntreeTry=100,stepFactor=2,improve=0.05,trace=TRUE, plot=T) #mtry = 66
 
 # Random Forest - actual model
-start_A1_rf_tr_lon <- Sys.time()
-A1_rf_tr_mdl_lon <- randomForest(y = Redu_tr_SigW$LONGITUDE, 
-                                 x = Redu_tr_SigW[A1_rf_tr_vec], importance = TRUE, 
-                                 method = "rf", ntree = 100, mtry = 66, trControl = control) 
-stop_A1_rf_tr_lon <- Sys.time()
-time_A1_rf_tr_lon_model <- stop_A1_rf_tr_lon - start_A1_rf_tr_lon 
+# start_A1_rf_tr_lon <- Sys.time()
+# A1_rf_tr_mdl_lon <- randomForest(y = Redu_tr_SigW$LONGITUDE, 
+#                                  x = Redu_tr_SigW[A1_rf_tr_vec], importance = TRUE, 
+#                                  method = "rf", ntree = 100, mtry = 66, trControl = control) 
+# stop_A1_rf_tr_lon <- Sys.time()
+# time_A1_rf_tr_lon_model <- stop_A1_rf_tr_lon - start_A1_rf_tr_lon 
+#saveRDS(A1_rf_tr_mdl_lon,"./models/A1_RF_Longitude.rds")
+Model_A1_RF_Longitude <- readRDS("./models/A1_RF_Longitude.rds")
 
 
 #### TEST FLOOR
@@ -311,10 +316,11 @@ ggplot(Redu_te_SigW, aes(orig_LONGITUDE, Long_MAE)) + geom_smooth(color="blue", 
   geom_point()+ geom_hline(yintercept = 4.2,color = "red", size=1)+
   ggtitle("A1-RF Independent: MAE Analysis - Longitude")+
   ylab("Individual Mean Absolute Errors")+xlab("Actual Longitude")+
-  ylim(c(0,50)) #ylim is excluding 10 errors as well
+  ylim(c(0,50)) #ylim is excluding 10 
 
-
-############################################ 3.2 APPROACH #2: RF CASCADING APPROACH ##########################################
+####
+#### 3.2 APPROACH #2: RF CASCADING APPROACH ####
+####
 
 #Train and predict Building
 #Train and predict Floor with predictions of Building
@@ -322,19 +328,21 @@ ggplot(Redu_te_SigW, aes(orig_LONGITUDE, Long_MAE)) + geom_smooth(color="blue", 
 #Train and predict Longitude with predictions of Building, Floor and Latitude
 
 
-#### TRAIN BUILDING
+### TRAIN BUILDING
 
 # Random Forest - search for best mtry
 A2_rf_tr_bmtry_bid <- tuneRF(Redu_tr_SigW[A1_rf_tr_vec], Redu_tr_SigW$BUILDINGID, 
                              ntreeTry=100,stepFactor=2,improve=0.05,trace=TRUE, plot=T) 
 
 # Random Forest - actual model
-start_A2_rf_tr_bid <- Sys.time()
-A2_rf_tr_mdl_bid <- randomForest(y = Redu_tr_SigW$BUILDINGID, 
-                                 x = Redu_tr_SigW[A1_rf_tr_vec], importance = TRUE, 
-                                 method = "rf", ntree = 100, mtry = 19, trControl = control) 
-stop_A2_rf_tr_bid <- Sys.time()
-time_A2_rf_tr_bid_model <- stop_A2_rf_tr_bid - start_A2_rf_tr_bid #30sec
+# start_A2_rf_tr_bid <- Sys.time()
+# A2_rf_tr_mdl_bid <- randomForest(y = Redu_tr_SigW$BUILDINGID, 
+#                                  x = Redu_tr_SigW[A1_rf_tr_vec], importance = TRUE, 
+#                                  method = "rf", ntree = 100, mtry = 19, trControl = control) 
+# stop_A2_rf_tr_bid <- Sys.time()
+# time_A2_rf_tr_bid_model <- stop_A2_rf_tr_bid - start_A2_rf_tr_bid #30sec
+#saveRDS(A2_rf_tr_mdl_bid,"./models/A2_RF_Building.rds")
+Model_A2_RF_Building <- readRDS("./models/A2_RF_Building.rds")
 
 # Predict Building
 A2_rf_bid_pred <- predict(A2_rf_tr_mdl_bid, A2_Redu_te_SigW)
@@ -352,12 +360,14 @@ A2_rf_tr_bmtry_fl <- tuneRF(A2_Redu_tr_SigW[A2_rf_tr_fl_vec], A2_Redu_tr_SigW$FL
                              ntreeTry=100,stepFactor=2,improve=0.05,trace=TRUE, plot=T) 
 
 # Random Forest - actual model
-start_A2_rf_tr_fl <- Sys.time()
-A2_rf_tr_mdl_fl <- randomForest(y = A2_Redu_tr_SigW$FLOOR, 
-                                 x = A2_Redu_tr_SigW[A2_rf_tr_fl_vec], importance = TRUE, 
-                                 method = "rf", ntree = 100, mtry = 38, trControl = control) 
-stop_A2_rf_tr_fl <- Sys.time()
-time_A2_rf_tr_fl_model <- stop_A2_rf_tr_fl - start_A2_rf_tr_fl #58sec
+# start_A2_rf_tr_fl <- Sys.time()
+# A2_rf_tr_mdl_fl <- randomForest(y = A2_Redu_tr_SigW$FLOOR, 
+#                                  x = A2_Redu_tr_SigW[A2_rf_tr_fl_vec], importance = TRUE, 
+#                                  method = "rf", ntree = 100, mtry = 38, trControl = control) 
+# stop_A2_rf_tr_fl <- Sys.time()
+# time_A2_rf_tr_fl_model <- stop_A2_rf_tr_fl - start_A2_rf_tr_fl #58sec
+#saveRDS(A2_rf_tr_mdl_fl,"./models/A2_RF_Floor.rds")
+Model_A2_RF_Floor <- readRDS("./models/A2_RF_Floor.rds")
 
 # Predict Floor
 A2_rf_fl_pred <- predict(A2_rf_tr_mdl_fl, A2_Redu_te_SigW)
@@ -375,12 +385,14 @@ A2_rf_tr_bmtry_lat <- tuneRF(A2_Redu_tr_SigW[A2_rf_tr_lat_vec], A2_Redu_tr_SigW$
                             ntreeTry=100,stepFactor=2,improve=0.05,trace=TRUE, plot=T) 
 
 # Random Forest - actual model
-start_A2_rf_tr_lat <- Sys.time()
-A2_rf_tr_mdl_lat <- randomForest(y = A2_Redu_tr_SigW$LATITUDE, 
-                                x = A2_Redu_tr_SigW[A2_rf_tr_lat_vec], importance = TRUE, 
-                                method = "rf", ntree = 100, mtry = 66, trControl = control) 
-stop_A2_rf_tr_lat <- Sys.time()
-time_A2_rf_tr_lat_model <- stop_A2_rf_tr_lat - start_A2_rf_tr_lat #2 min
+# start_A2_rf_tr_lat <- Sys.time()
+# A2_rf_tr_mdl_lat <- randomForest(y = A2_Redu_tr_SigW$LATITUDE, 
+#                                 x = A2_Redu_tr_SigW[A2_rf_tr_lat_vec], importance = TRUE, 
+#                                 method = "rf", ntree = 100, mtry = 66, trControl = control) 
+# stop_A2_rf_tr_lat <- Sys.time()
+# time_A2_rf_tr_lat_model <- stop_A2_rf_tr_lat - start_A2_rf_tr_lat #2 min
+#saveRDS(A2_rf_tr_mdl_lat,"./models/A2_RF_Latitude.rds")
+Model_A2_RF_Latitude <- readRDS("./models/A2_RF_Latitude.rds")
 
 # Predict Latitude
 A2_rf_lat_pred <- predict(A2_rf_tr_mdl_lat, A2_Redu_te_SigW)
@@ -398,12 +410,14 @@ A2_rf_tr_bmtry_lon <- tuneRF(A2_Redu_tr_SigW[A2_rf_tr_lon_vec], A2_Redu_tr_SigW$
                              ntreeTry=100,stepFactor=2,improve=0.05,trace=TRUE, plot=T) 
 
 # Random Forest - actual model
-start_A2_rf_tr_lon <- Sys.time()
-A2_rf_tr_mdl_lon <- randomForest(y = A2_Redu_tr_SigW$LONGITUDE, 
-                                 x = A2_Redu_tr_SigW[A2_rf_tr_lon_vec], importance = TRUE, 
-                                 method = "rf", ntree = 100, mtry = 132, trControl = control) 
-stop_A2_rf_tr_lon <- Sys.time()
-time_A2_rf_tr_lat_model <- stop_A2_rf_tr_lon - start_A2_rf_tr_lon #2.7min
+# start_A2_rf_tr_lon <- Sys.time()
+# A2_rf_tr_mdl_lon <- randomForest(y = A2_Redu_tr_SigW$LONGITUDE, 
+#                                  x = A2_Redu_tr_SigW[A2_rf_tr_lon_vec], importance = TRUE, 
+#                                  method = "rf", ntree = 100, mtry = 132, trControl = control) 
+# stop_A2_rf_tr_lon <- Sys.time()
+# time_A2_rf_tr_lat_model <- stop_A2_rf_tr_lon - start_A2_rf_tr_lon #2.7min
+# saveRDS(A2_rf_tr_mdl_lon,"./models/A2_RF_Longitude.rds")
+Model_A2_RF_Longitude <- readRDS("./models/A2_RF_Longitude.rds")
 
 # Predict Longitude
 A2_rf_lon_pred <- predict(A2_rf_tr_mdl_lon, A2_Redu_te_SigW)
@@ -440,8 +454,10 @@ ggplot(A2_Redu_te_SigW, aes(orig_LONGITUDE, Long_MAE)) + geom_smooth(color="blue
   ylab("Individual Mean Absolute Errors")+xlab("Actual Longitude")+
   ylim(c(0,40)) #ylim is excluding 15 errors as well
 
+####
+#### 3.3 APPROACH #3: KNN CASCADING APPROACH ####
+####
 
-############################################ 3.3 APPROACH #3: KNN CASCADING APPROACH ########################################
 
 #### TRAIN BUILDING 
 
@@ -449,12 +465,15 @@ A3_rf_tr_vec <- grep("WAP", names(A3_Redu_tr_SigW), value = T)
 
 metric_ID <- "Accuracy"
 
-start_A3_knn_tr_bid <- Sys.time()
-A3_knn_tr_mdl_bid <- train(y = A3_Redu_tr_SigW$BUILDINGID, 
-                             x = A3_Redu_tr_SigW[A3_rf_tr_vec],
-                             method = "knn", trControl = control, metric = metric_ID) 
-stop_A3_knn_tr_bid <- Sys.time()
-time_A3_knn_tr_bid <- stop_A3_knn_tr_bid - start_A3_knn_tr_bid #3 min 
+# start_A3_knn_tr_bid <- Sys.time()
+# A3_knn_tr_mdl_bid <- train(y = A3_Redu_tr_SigW$BUILDINGID, 
+#                              x = A3_Redu_tr_SigW[A3_rf_tr_vec],
+#                              method = "knn", trControl = control, metric = metric_ID) 
+# stop_A3_knn_tr_bid <- Sys.time()
+# time_A3_knn_tr_bid <- stop_A3_knn_tr_bid - start_A3_knn_tr_bid #3 min 
+# saveRDS(A3_knn_tr_mdl_bid,"./models/A3_KNN_Building.rds")
+Model_A3_KNN_Building <- readRDS("./models/A3_KNN_Building.rds")
+
 
 # Predict Building
 A3_knn_bid_pred <- predict(A3_knn_tr_mdl_bid, A3_Redu_te_SigW)
