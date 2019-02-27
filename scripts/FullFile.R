@@ -635,20 +635,26 @@ ggplot(trans_A3_Redu_te_SigW_dum, aes(orig_LONGITUDE, Long_MAE)) + geom_smooth(c
   ylab("Individual Mean Absolute Errors")+xlab("Actual Longitude")+
   ylim(c(0,40)) #ylim is excluding 15 errors as well
 
-##################################################### 4 APPLYING MODELS  ##################################################
+####
+#### 4 APPLYING MODELS  ####
+####
+
 A1_validation <- validation_wide
 A2_validation <- validation_wide
 A3_validation <- validation_wide
 
 
-##### APPROACH #1: RF INDEPENDENT APPROACH
+### APPROACH #1: RF INDEPENDENT APPROACH
+
 A1_vali_floor <- predict(A1_rf_tr_mdl_fl, A1_validation) #Floor
 A1_vali_lat <- predict(A1_rf_tr_mdl_lat, A1_validation)
 A1_vali_long <- predict(A1_rf_tr_mdl_lon, A1_validation)
 A1_results <- cbind(A1_vali_floor,A1_vali_lat,A1_vali_long)
 write.csv(A1_results,file = "A1_results.csv")
 
-##### APPROACH #2: RF WATERFALL APPROACH
+
+### APPROACH #2: RF WATERFALL APPROACH
+
 A2_vali_building <- predict(A2_rf_tr_mdl_bid, A2_validation) #Floor
 A2_validation$BUILDINGID <- A2_vali_building #always insert the new predictions
 
@@ -661,7 +667,4 @@ A2_validation$LATITUDE <- A2_vali_lat
 A2_vali_lon <- predict(A2_rf_tr_mdl_lon, A2_validation)
 A2_results <- cbind(A2_vali_floor, A2_vali_lat,A2_vali_lon)
 write.csv(A2_results,file = "A2_results.csv")
-
-
-
 
