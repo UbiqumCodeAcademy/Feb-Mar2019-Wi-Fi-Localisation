@@ -55,7 +55,9 @@ test_wide <- unique(test_wide)
 black.bold.italic.16.text <- element_text(face = "bold.italic", color = "black", size = 16)
 black.16.text <- element_text(color = "black", size = 16)
 
-################################## Initial Graphical Exploration #######################################
+####
+#### Initial Graphical Exploration ####
+####
 
 #change to long format for visualisation purposes 
 id.vars <-  c("LONGITUDE","LATITUDE","FLOOR","BUILDINGID","SPACEID","RELATIVEPOSITION",
@@ -77,7 +79,6 @@ ggplot(data = buildingTI) +
   labs(title = "Train: TI-Floors by observation", x = "Longitude", y = "Latitude",
        subtitle = "Most observations are useless as they do not display any Wi-Fi strength")
   
-
 #delete rows with no WAPs connections
 train_long_wo <- filter(train_long, train_long$value != 0)
 test_long_wo <- filter(test_long, test_long$value != 0)
@@ -96,9 +97,9 @@ test_long_wo$Intensity <- ifelse(test_long_wo[,c("value")] > 75, "Outliers",
 train_long_wo$Intensity <- as.factor(train_long_wo$Intensity)
 test_long_wo$Intensity <- as.factor(test_long_wo$Intensity)
 
-#strength graph
-ggplot(test_long_wo, aes(value)) + geom_bar() #no bump in test data
-ggplot(train_long_wo, aes(value)) + geom_bar() #strong bump on larger scale 
+#Wireless Access Points strengths
+ggplot(test_long_wo, aes(value)) + geom_bar() #no outliers in test data
+ggplot(train_long_wo, aes(value)) + geom_bar() #outliers in training data 
 
 ggplot(train_long_wo, aes(value, color = FLOOR, fill = FLOOR)) + geom_bar()+ 
   scale_y_continuous(trans='log2')+ ggtitle("Set I: Log-scale: Strength of WAPs")
@@ -130,13 +131,12 @@ ggplot(Out_data, aes(PHONEID)) + geom_bar() #using phone #19
 ggplot(Out_data, aes(USERID)) + geom_bar() + facet_grid(Out_data$FLOOR) #user 6 only on Floor 3,4
 ggplot(train_long_wo, aes(USERID)) + geom_bar() + facet_grid(train_long_wo$FLOOR) #sig. amount of Floor 3,4 obs done by user 6 -> leave in
 
-#Floor 3/4 User id 6 behaviour
+#Floor 3/4 User 6 behaviour
 Floor_3_4_train <- train_long_wo %>% filter(FLOOR == 3|4)
 ggplot(Floor_3_4_train, aes(USERID, fill=Intensity)) + geom_bar()
 
 Floor_3_train <- train_long_wo %>% filter(FLOOR == 3)
 ggplot(Floor_3_train, aes(USERID, fill=FLOOR)) + geom_bar()
-
 
 #difference between test and train
 train_long_wo$SET <- "TRAIN"
