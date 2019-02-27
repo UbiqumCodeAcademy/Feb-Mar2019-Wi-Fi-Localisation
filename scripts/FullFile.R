@@ -459,7 +459,7 @@ ggplot(A2_Redu_te_SigW, aes(orig_LONGITUDE, Long_MAE)) + geom_smooth(color="blue
 ####
 
 
-#### TRAIN BUILDING 
+### TRAIN BUILDING 
 
 A3_rf_tr_vec <- grep("WAP", names(A3_Redu_tr_SigW), value = T)
 
@@ -481,7 +481,7 @@ A3_Redu_te_SigW$BUILDINGID <- A3_knn_bid_pred #add predicted Building ID to test
 confusionMatrix(A3_knn_bid_pred, A3_Redu_te_SigW$orig_BUILDINGID) # 99.3% & K: 0.989
 
 
-#### TRAIN FLOOR 
+### TRAIN FLOOR 
 
 A3_rf_tr_vec_fl <- grep("WAP|BUILDINGID", names(A3_Redu_tr_SigW), value = T)
 
@@ -500,7 +500,7 @@ A3_Redu_te_SigW$FLOOR <- A3_knn_fl_pred
 confusionMatrix(A3_knn_fl_pred, A3_Redu_te_SigW$orig_FLOOR) # 92.3% & K: 0.9015
 
 
-#### TRAIN LATITUDE 
+### TRAIN LATITUDE 
 
 metric_ID_lon <- "Rsquared"
 
@@ -528,7 +528,8 @@ trans_A3_Redu_tr_SigW_dum$BuildingIDTI <- pred1$BUILDINGID.TI
 trans_A3_Redu_tr_SigW_dum$BuildingIDTD <- pred1$BUILDINGID.TD
 trans_A3_Redu_tr_SigW_dum$LATITUDE <- A3_Redu_tr_SigW$LATITUDE #needs to be real as we train
 
-## TEST SET TRANSFORMATION
+
+### TEST SET TRANSFORMATION
 
 #dummify the Buildings
 dumtest <- dummyVars(~., data = A3_Redu_te_SigW[c("BUILDINGID")])
@@ -551,6 +552,7 @@ trans_A3_Redu_te_SigW_dum$BuildingIDTI <- pred1test$BUILDINGID.TI
 trans_A3_Redu_te_SigW_dum$BuildingIDTD <- pred1test$BUILDINGID.TD
 trans_A3_Redu_te_SigW_dum$orig_LATITUDE <- A3_Redu_te_SigW$LATITUDE
 
+#Create Vector of independent variables
 A3_rf_tr_vec_lat <- grep("WAP|Building", names(trans_A3_Redu_tr_SigW_dum), value = T)
 
 # Knn model
@@ -569,8 +571,7 @@ trans_A3_Redu_te_SigW_dum$LATITUDE <- A3_knn_lat_pred
 postResample(pred = trans_A3_Redu_te_SigW_dum$LATITUDE, obs = trans_A3_Redu_te_SigW_dum$orig_LATITUDE) #MAE: 3.7m
 
 
-##### TEST LONGITUDE KNN 
-
+### TEST LONGITUDE KNN 
 
 trans_A3_Redu_tr_SigW_dum$LONGITUDE <- A3_Redu_tr_SigW$LONGITUDE
 trans_A3_Redu_te_SigW_dum$orig_LONGITUDE <- A3_Redu_te_SigW$orig_LONGITUDE
@@ -580,7 +581,7 @@ colnames(trans_A3_Redu_tr_SigW_dum)
 preprocesswaps1 <- preProcess(A3_Redu_tr_SigW_dum[,1:393,395], method = c("range"))
 trans_A3_Redu_tr_SigW_dum1 <- predict(preprocesswaps1, A3_Redu_tr_SigW_dum[,1:393,395])
 
-
+#Create Vector of independet variables
 A3_rf_tr_vec_lon <- grep("WAP|Building|LATITUDE", names(trans_A3_Redu_tr_SigW_dum1), value = T)
 
 # start_A3_knn_tr_lon <- Sys.time()
@@ -597,7 +598,7 @@ A3_knn_lon_pred <- predict(A3_knn_tr_mdl_lon, trans_A3_Redu_te_SigW_dum)
 trans_A3_Redu_te_SigW_dum$LONGITUDE <- A3_knn_lon_pred 
 postResample(pred = trans_A3_Redu_te_SigW_dum$LONGITUDE, obs = trans_A3_Redu_te_SigW_dum$orig_LONGITUDE) #MAE: 5.18
 
-#### Error Analysis
+
 
 #Classification Error Building
 ggplot(A3_Redu_te_SigW, aes(x = orig_BUILDINGID, y= A3_knn_bid_pred, color = orig_FLOOR, size = 1))+
