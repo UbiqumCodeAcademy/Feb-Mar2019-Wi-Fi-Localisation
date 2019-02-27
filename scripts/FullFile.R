@@ -13,9 +13,13 @@ pacman::p_load(plot3Drgl, rgl, car, ggplot2, plotly, rstudioapi)
 
 esquisse:: esquisser()
 
+### Github
 
+current_path = rstudioapi::getActiveDocumentContext()$path #save working directory
+setwd(dirname(current_path))
+setwd("..")
 
-########################################### Data input ################################################
+### Data files 
 
 train_wide <- read.csv("C:/Users/Dell/Desktop/Ubiqum Data Analytics/IoT/Wifi/trainingData.csv",
                        header = TRUE)
