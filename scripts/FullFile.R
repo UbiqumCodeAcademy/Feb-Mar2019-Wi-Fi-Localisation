@@ -168,7 +168,9 @@ ggplot(train_long, aes(LONGITUDE, LATITUDE, colour = factor(FLOOR))) + geom_poin
 plot_ly(train_long,type = "scatter3d", x = ~ LONGITUDE, y= ~LATITUDE, z=~FLOOR, mode = "markers",
         marker = list(size = 4, color = ~ FLOOR, size = 1, replace = TRUE))
 
-################################ Creating test and training samples to test different approaches ############################
+####
+#### Creating test and training samples to test different approaches ####
+####
 
 #merge training and test set
 train_wide$SETTYPE <- "train"
