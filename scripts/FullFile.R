@@ -2,8 +2,15 @@
 # Florian UNGER
 # 25/2/2019
 
+### Packages 
 
-install.packages("esquisse")
+install.packages(c("plot3Drgl", "corrplot", "plot3D", "rgl", 
+                   "car", "manipulateWidget", "reshape" , 
+                   "reshape2", "Rfast", "randomForest", "rstudioapi",
+                   "esquisse"))
+
+pacman::p_load(plot3Drgl, rgl, car, ggplot2, plotly, rstudioapi)
+
 esquisse:: esquisser()
 
 
