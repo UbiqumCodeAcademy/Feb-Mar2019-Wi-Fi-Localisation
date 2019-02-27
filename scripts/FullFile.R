@@ -485,12 +485,14 @@ confusionMatrix(A3_knn_bid_pred, A3_Redu_te_SigW$orig_BUILDINGID) # 99.3% & K: 0
 
 A3_rf_tr_vec_fl <- grep("WAP|BUILDINGID", names(A3_Redu_tr_SigW), value = T)
 
-start_A3_knn_tr_fl <- Sys.time()
-A3_knn_tr_mdl_fl <- train(y = A3_Redu_tr_SigW$FLOOR, 
-                           x = A3_Redu_tr_SigW[A3_rf_tr_vec],
-                           method = "knn", trControl = control, metric = metric_ID) 
-stop_A3_knn_tr_fl <- Sys.time()
-time_A3_knn_tr_fl <- stop_A3_knn_tr_fl - start_A3_knn_tr_fl #3 min 
+# start_A3_knn_tr_fl <- Sys.time()
+# A3_knn_tr_mdl_fl <- train(y = A3_Redu_tr_SigW$FLOOR, 
+#                            x = A3_Redu_tr_SigW[A3_rf_tr_vec],
+#                            method = "knn", trControl = control, metric = metric_ID) 
+# stop_A3_knn_tr_fl <- Sys.time()
+# time_A3_knn_tr_fl <- stop_A3_knn_tr_fl - start_A3_knn_tr_fl #3 min 
+# saveRDS(A3_knn_tr_mdl_fl,"./models/A3_KNN_Floor.rds")
+Model_A3_KNN_Floor <- readRDS("./models/A3_KNN_Floor.rds")
 
 # Predict Floor
 A3_knn_fl_pred <- predict(A3_knn_tr_mdl_fl, A3_Redu_te_SigW)
@@ -552,12 +554,14 @@ trans_A3_Redu_te_SigW_dum$orig_LATITUDE <- A3_Redu_te_SigW$LATITUDE
 A3_rf_tr_vec_lat <- grep("WAP|Building", names(trans_A3_Redu_tr_SigW_dum), value = T)
 
 # Knn model
-start_A3_knn_tr_lat <- Sys.time()
-A3_knn_tr_mdl_lat <- train(y = trans_A3_Redu_tr_SigW_dum$LATITUDE, 
-                          x = trans_A3_Redu_tr_SigW_dum[A3_rf_tr_vec_lat],
-                          method = "knn", trControl = control, metric = metric_ID_lon) 
-stop_A3_knn_tr_lat <- Sys.time()
-time_A3_knn_tr_lat <- stop_A3_knn_tr_lat - start_A3_knn_tr_lat #3 min 
+# start_A3_knn_tr_lat <- Sys.time()
+# A3_knn_tr_mdl_lat <- train(y = trans_A3_Redu_tr_SigW_dum$LATITUDE, 
+#                           x = trans_A3_Redu_tr_SigW_dum[A3_rf_tr_vec_lat],
+#                           method = "knn", trControl = control, metric = metric_ID_lon) 
+# stop_A3_knn_tr_lat <- Sys.time()
+# time_A3_knn_tr_lat <- stop_A3_knn_tr_lat - start_A3_knn_tr_lat #3 min 
+# saveRDS(A3_knn_tr_mdl_lat,"./models/A3_KNN_Latitude.rds")
+Model_A3_KNN_Latitude <- readRDS("./models/A3_KNN_Latitude.rds")
 
 # Predict Latitude
 A3_knn_lat_pred <- predict(A3_knn_tr_mdl_lat, trans_A3_Redu_te_SigW_dum)
@@ -579,12 +583,14 @@ trans_A3_Redu_tr_SigW_dum1 <- predict(preprocesswaps1, A3_Redu_tr_SigW_dum[,1:39
 
 A3_rf_tr_vec_lon <- grep("WAP|Building|LATITUDE", names(trans_A3_Redu_tr_SigW_dum1), value = T)
 
-start_A3_knn_tr_lon <- Sys.time()
-A3_knn_tr_mdl_lon <- train(y = trans_A3_Redu_tr_SigW_dum$LONGITUDE, 
-                              x = trans_A3_Redu_tr_SigW_dum[A3_rf_tr_vec_lon],
-                              method = "knn", trControl = control, metric = metric_ID_lon) 
-stop_A3_knn_tr_lon <- Sys.time()
-time_knn_Lon <- stop_A3_knn_tr_lon - start_A3_knn_tr_lon 
+# start_A3_knn_tr_lon <- Sys.time()
+# A3_knn_tr_mdl_lon <- train(y = trans_A3_Redu_tr_SigW_dum$LONGITUDE, 
+#                               x = trans_A3_Redu_tr_SigW_dum[A3_rf_tr_vec_lon],
+#                               method = "knn", trControl = control, metric = metric_ID_lon) 
+# stop_A3_knn_tr_lon <- Sys.time()
+# time_knn_Lon <- stop_A3_knn_tr_lon - start_A3_knn_tr_lon 
+# saveRDS(A3_knn_tr_mdl_lon,"./models/A3_KNN_Longitude.rds")
+Model_A3_KNN_Longitude <- readRDS("./models/A3_KNN_Longitude.rds")
 
 # Predict Longitude
 A3_knn_lon_pred <- predict(A3_knn_tr_mdl_lon, trans_A3_Redu_te_SigW_dum)
