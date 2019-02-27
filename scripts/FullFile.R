@@ -216,9 +216,11 @@ A3_Redu_tr_SigW <- Redu_tr_SigW
 A2_Redu_te_SigW <- Redu_te_SigW
 A3_Redu_te_SigW <- Redu_te_SigW
 
-########################################## 3.1 APPROACH #1: RAF INDEPENDENT APPROACH #########################################
+####
+#### 3.1 APPROACH #1: RAF INDEPENDENT APPROACH ####
+####
 
-#### TRAIN FLOOR
+### TRAIN FLOOR
 
 # Cross Validation 
 control <- trainControl(method = "repeatedcv", number = 10, repeats = 2, returnData = TRUE)
@@ -229,28 +231,32 @@ A1_rf_tr_bmtry_fl <- tuneRF(Redu_tr_SigW[A1_rf_tr_vec], Redu_tr_SigW$FLOOR,
                           ntreeTry=100,stepFactor=2,improve=0.05,trace=TRUE, plot=T) #mtry = 38
 
 # Random Forest - actual model
-start_A1_rf_tr_fl <- Sys.time()
-A1_rf_tr_mdl_fl <- randomForest(y = Redu_tr_SigW$FLOOR, 
-                                x = Redu_tr_SigW[A1_rf_tr_vec], importance = TRUE, 
-                                method = "rf", ntree = 100, mtry = 38, trControl = control) 
-stop_A1_rf_tr_fl <- Sys.time()
-time_A1_rf_tr_fl_model <- stop_A1_rf_tr_fl - start_A1_rf_tr_fl #1.3 min
+#start_A1_rf_tr_fl <- Sys.time()
+#A1_rf_tr_mdl_fl <- randomForest(y = Redu_tr_SigW$FLOOR, 
+                                #x = Redu_tr_SigW[A1_rf_tr_vec], importance = TRUE, 
+                                #method = "rf", ntree = 100, mtry = 38, trControl = control) 
+#stop_A1_rf_tr_fl <- Sys.time()
+#time_A1_rf_tr_fl_model <- stop_A1_rf_tr_fl - start_A1_rf_tr_fl #1.3 min
+#saveRDS(A1_rf_tr_mdl_fl,"./models/A1_RF_Floor.rds")
+Model_A1_RF_Floor <- readRDS("./models/A1_RF_Floor.rds")
 
-#### TRAIN LATITUDE
+### TRAIN LATITUDE
 
 # Random Forest - search for best mtry
 A1_rf_tr_bmtry_lat <- tuneRF(Redu_tr_SigW[A1_rf_tr_vec], Redu_tr_SigW$LATITUDE,  
                          ntreeTry=100,stepFactor=2,improve=0.05,trace=TRUE, plot=T) #mtry = 66
 
 # Random Forest - actual model
-start_A1_rf_tr_lat <- Sys.time()
-A1_rf_tr_mdl_lat <- randomForest(y = Redu_tr_SigW$LATITUDE, 
-                                x = Redu_tr_SigW[A1_rf_tr_vec], importance = TRUE, 
-                                method = "rf", ntree = 100, mtry = 66, trControl = control) 
-stop_A1_rf_tr_lat <- Sys.time()
-time_A1_rf_tr_lat_model <- stop_A1_rf_tr_lat - start_A1_rf_tr_lat #1.8 min
+#start_A1_rf_tr_lat <- Sys.time()
+#A1_rf_tr_mdl_lat <- randomForest(y = Redu_tr_SigW$LATITUDE, 
+                                #x = Redu_tr_SigW[A1_rf_tr_vec], importance = TRUE, 
+                                #method = "rf", ntree = 100, mtry = 66, trControl = control) 
+#stop_A1_rf_tr_lat <- Sys.time()
+#time_A1_rf_tr_lat_model <- stop_A1_rf_tr_lat - start_A1_rf_tr_lat #1.8 min
+#saveRDS(A1_rf_tr_mdl_lat,"./models/A1_RF_Latitude.rds")
+Model_A1_RF_Latitude <- readRDS("./models/A1_RF_Latitude.rds")
 
-#### TRAIN LONGITUDE
+### TRAIN LONGITUDE
 
 # Random Forest - search for best mtry
 A1_rf_tr_bmtry_lon <- tuneRF(Redu_tr_SigW[A1_rf_tr_vec], Redu_tr_SigW$LONGITUDE, 
