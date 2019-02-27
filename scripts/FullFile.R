@@ -28,14 +28,13 @@ test_wide <- read.csv("C:/Users/Dell/Desktop/Ubiqum Data Analytics/IoT/Wifi/vali
 validation_wide <- read.csv("C:/Users/Dell/Desktop/Ubiqum Data Analytics/IoT/Wifi/testData.csv",
                       header = TRUE)
 
-#Changing variables to factors & POSIXct - TRAINING
+#Changing variables to factors & POSIXct
 varis <- c("FLOOR", "BUILDINGID", "SPACEID", 
            "RELATIVEPOSITION", "USERID", "PHONEID")
 for (v in varis){
   train_wide[,v] <- as.factor(train_wide[,v])}
 train_wide$TIMESTAMP <- as.POSIXct(train_wide$TIMESTAMP, origin = "1970-01-01")  
 
-#Changing variables to factors & POSIXct - TEST
 for (v in varis){
   test_wide[,v] <- as.factor(test_wide[,v])}
 test_wide$TIMESTAMP <- as.POSIXct(test_wide$TIMESTAMP, origin = "1970-01-01") 
