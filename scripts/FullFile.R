@@ -516,7 +516,9 @@ pred1 <- as.data.frame(pred)
 A3_Redu_tr_SigW_dum <- A3_Redu_tr_SigW
 
 # Changing 100 (na) to weakest (-105)
-A3_Redu_tr_SigW_dum[,1:393] <- apply(A3_Redu_tr_SigW_dum[,1:393], 2, function(x) ifelse(x == 100, -105, x))
+A3_Redu_tr_SigW_dum[,1:393] <- apply(
+  A3_Redu_tr_SigW_dum[,1:393], 2, function(x) ifelse(x == 100, -105, x)
+  )
 
 # Normalising
 preprocesswaps <- preProcess(A3_Redu_tr_SigW_dum[,1:393], method = c("range"))
@@ -526,7 +528,7 @@ trans_A3_Redu_tr_SigW_dum <- predict(preprocesswaps, A3_Redu_tr_SigW_dum[,1:393]
 trans_A3_Redu_tr_SigW_dum$BuildingIDTC <- pred1$BUILDINGID.TC
 trans_A3_Redu_tr_SigW_dum$BuildingIDTI <- pred1$BUILDINGID.TI
 trans_A3_Redu_tr_SigW_dum$BuildingIDTD <- pred1$BUILDINGID.TD
-trans_A3_Redu_tr_SigW_dum$LATITUDE <- A3_Redu_tr_SigW$LATITUDE #needs to be real as we train
+trans_A3_Redu_tr_SigW_dum$LATITUDE <- A3_Redu_tr_SigW$LATITUDE #needs to be original value for training
 
 
 ### TEST SET TRANSFORMATION
@@ -540,7 +542,9 @@ pred1test <- as.data.frame(predtest)
 A3_Redu_te_SigW_dum <- A3_Redu_te_SigW
 
 # Changing 100 (na) to weakest (-105)
-A3_Redu_te_SigW_dum[,1:393] <- apply(A3_Redu_te_SigW_dum[,1:393], 2, function(x) ifelse(x == 100, -105, x))
+A3_Redu_te_SigW_dum[,1:393] <- apply(
+  A3_Redu_te_SigW_dum[,1:393], 2, function(x) ifelse(x == 100, -105, x)
+  )
 
 # Normalising
 preprocesswapstest <- preProcess(A3_Redu_te_SigW_dum[,1:393], method = c("range"))
@@ -599,6 +603,7 @@ trans_A3_Redu_te_SigW_dum$LONGITUDE <- A3_knn_lon_pred
 postResample(pred = trans_A3_Redu_te_SigW_dum$LONGITUDE, obs = trans_A3_Redu_te_SigW_dum$orig_LONGITUDE) #MAE: 5.18
 
 
+### Error Analysis
 
 #Classification Error Building
 ggplot(A3_Redu_te_SigW, aes(x = orig_BUILDINGID, y= A3_knn_bid_pred, color = orig_FLOOR, size = 1))+
