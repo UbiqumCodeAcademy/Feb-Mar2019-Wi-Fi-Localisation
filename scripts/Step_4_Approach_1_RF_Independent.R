@@ -1,4 +1,4 @@
-source("Creating_test_and_train_sets.R")
+source("Step_3_Creating_test_and_train_sets.R")
 
 ####
 #### 3.1 APPROACH #1: RAF INDEPENDENT APPROACH ####

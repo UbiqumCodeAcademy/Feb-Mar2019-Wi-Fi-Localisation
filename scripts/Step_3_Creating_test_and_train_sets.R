@@ -1,4 +1,4 @@
-source("Graphical_Exploration.R")
+source("Step_2_Graphical_Exploration.R")
 
 ####
 #### Creating test and training samples to test different approaches ####

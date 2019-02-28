@@ -1,4 +1,4 @@
-source("Approach_3_KNN_Cascade.R")
+source("Step_6_Approach_3_KNN_Cascade.R")
 
 ####
 #### 4 APPLYING MODELS  ####
