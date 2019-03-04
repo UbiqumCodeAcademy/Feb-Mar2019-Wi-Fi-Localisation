@@ -36,10 +36,10 @@ Redu_tr_te_SigW <- tr_and_te_with_SigW %>% group_by(BUILDINGID, FLOOR) %>% sampl
 #2 split this reduced set then in training and test
 Redu_tr_SigW <- Redu_tr_te_SigW %>% group_by(BUILDINGID, FLOOR) %>% sample_n(440)
 Redu_te_SigW <- anti_join(Redu_tr_te_SigW, Redu_tr_SigW)
-Redu_te_SigW <- plyr::rename(Redu_te_SigW, orig_FLOOR = FLOOR,
-                             orig_BUILDINGID = BUILDINGID, 
-                             orig_LATITUDE = LATITUDE,
-                             orig_LONGITUDE = LONGITUDE)
+
+setnames(Redu_te_SigW,
+         c("FLOOR","BUILDINGID", "LATITUDE", "LONGITUDE"),
+         c("orig_FLOOR","orig_BUILDINGID", "orig_LATITUDE", "orig_LONGITUDE"))
 
 # Create separate train/test sets to make different approaches comparable
 A2_Redu_tr_SigW <- Redu_tr_SigW
@@ -47,3 +47,5 @@ A3_Redu_tr_SigW <- Redu_tr_SigW
 
 A2_Redu_te_SigW <- Redu_te_SigW
 A3_Redu_te_SigW <- Redu_te_SigW
+
+unique(A3_Redu_tr_SigW$orig_FLOOR) #still have the right floor levels
