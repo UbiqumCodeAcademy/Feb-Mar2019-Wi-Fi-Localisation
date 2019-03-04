@@ -19,13 +19,18 @@ current_path = rstudioapi::getActiveDocumentContext()$path #save working directo
 setwd(dirname(current_path))
 setwd("..")
 
+### Securing package location
+Sys.getenv("R_LIBS_USER") #we checked where the libraries are stored
+.libPaths("C:\\Users\\Dell\\Documents\\R\\win-library\\3.5") #manually chage the lib paths
+.libPaths()
+
 ### Data files 
 
-train_wide <- read.csv("C:/Users/Dell/Desktop/Ubiqum Data Analytics/IoT/Wifi/trainingData.csv",
+train_wide <- read.csv("C:/Users/Dell/Desktop/Ubiqum Data Analytics/IoT/Wi-Fi Localisation/datasets/trainingData.csv",
                        header = TRUE)
-test_wide <- read.csv("C:/Users/Dell/Desktop/Ubiqum Data Analytics/IoT/Wifi/validationData.csv",
+test_wide <- read.csv("C:/Users/Dell/Desktop/Ubiqum Data Analytics/IoT/Wi-Fi Localisation/datasets/validationData.csv",
                       header = TRUE)
-validation_wide <- read.csv("C:/Users/Dell/Desktop/Ubiqum Data Analytics/IoT/Wifi/testData.csv",
+validation_wide <- read.csv("C:/Users/Dell/Desktop/Ubiqum Data Analytics/IoT/Wi-Fi Localisation/datasets/testData.csv",
                             header = TRUE)
 
 #Changing variables to factors & POSIXct
