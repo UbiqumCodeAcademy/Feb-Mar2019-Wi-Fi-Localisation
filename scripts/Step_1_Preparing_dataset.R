@@ -44,10 +44,6 @@ for (v in varis){
   test_wide[,v] <- as.factor(test_wide[,v])}
 test_wide$TIMESTAMP <- as.POSIXct(test_wide$TIMESTAMP, origin = "1970-01-01") 
 
-#rename variables 
-levels(test_wide$BUILDINGID) <- c("TI", "TD", "TC")
-levels(train_wide$BUILDINGID) <- c("TI", "TD", "TC")
-
 #unique values - decision to merge sets
 unique_train <- unique(paste(train_wide$LONGITUDE, train_wide$LATITUDE, train_wide$FLOOR)) #933 locations
 unique_test <- unique(paste(test_wide$LONGITUDE, test_wide$LATITUDE, test_wide$FLOOR)) #1061 locations
