@@ -31,6 +31,7 @@ We have been provided with three datasets of observations (Wi-Fi fingerprints)fo
 **3. Creating test and training sets:**
 
 * Plot SD of individual WAPs to understand, whether they are different from 100 (= no signal)(see graph below)
+![treating waps](https://user-images.githubusercontent.com/45852632/53890631-da7ceb00-4028-11e9-8448-f0571aad8c99.PNG)
 * Remove WAPs with SD smaller than 5% as they are not relevant
 * Cbind train and test to one common DF with ~21K observations
 * Using sample_n() to reduce the DF to 5.6K observations, which are again split in 80% - 20% train and test set
@@ -39,15 +40,18 @@ We have been provided with three datasets of observations (Wi-Fi fingerprints)fo
 
 * We use 520 WAPs to independently classify floor, latitude and longitude
 * Error Metrics (see graph below)
+![error metrics independent](https://user-images.githubusercontent.com/45852632/53890661-ea94ca80-4028-11e9-9ba3-259542785c11.PNG)
 
 **5. Approach 2: RF Waterfall approach:**
 
 * We use 520 WAPs to independently classify building, use 520 WAPs & classified building to classify floor, use 520 WAPs and classified building and floor to predict latitude, before using all predicted/classified variables to predict longitude.
 * Error Metrics (see graph below)
+![error metrics rf waterfall](https://user-images.githubusercontent.com/45852632/53890682-f3859c00-4028-11e9-9e8e-b466bc93973e.PNG)
 
 **6. Approach 3: KNN Waterfall approach:**
 
 * We use 520 WAPs to independently classify building, use 520 WAPs & classified builidng to classify floor, use 520 WAPs and classified building and floor to predict latitude, before using all predicted/classified variables to predict longitude.
 * Error Metrics (see graph below)
+![error metrics knn waterfall](https://user-images.githubusercontent.com/45852632/53890706-fda79a80-4028-11e9-92a0-89ea415579ca.PNG)
 
 **7. Applying RF Models to the validation set** 
