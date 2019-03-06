@@ -26,6 +26,7 @@ We have been provided with three datasets of observations (Wi-Fi fingerprints)fo
 * Deep-dive into Outliers (specifically User #6)
 * Bin signal strenght into several categories (https://www.metageek.com/training/resources/wifi-signal-strength-basics.html)
 * Understand differences in observations between test and train set (see graph below)
+![train1vstrain2](https://user-images.githubusercontent.com/45852632/53890563-b9b49580-4028-11e9-90ff-10cdc8e7d844.PNG)
 
 **3. Creating test and training sets:**
 
