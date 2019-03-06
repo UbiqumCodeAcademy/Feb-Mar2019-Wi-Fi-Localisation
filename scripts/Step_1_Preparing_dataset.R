@@ -4,12 +4,10 @@
 
 ### Packages 
 
-install.packages(c("plot3Drgl", "corrplot", "plot3D", "rgl", 
-                   "car", "manipulateWidget", "reshape" , 
-                   "reshape2", "Rfast", "randomForest", "rstudioapi",
-                   "esquisse"))
-
-pacman::p_load(plot3Drgl, rgl, car, ggplot2, plotly, rstudioapi)
+pacman::p_load(plot3Drgl, rgl, car, ggplot2,
+               plotly, rstudioapi, corrplot, 
+               rgl, manipulateWidget, reshape, 
+               reshape2, Rfast, randomForest, esquisse)
 
 esquisse:: esquisser()
 
@@ -34,8 +32,7 @@ validation_wide <- read.csv("C:/Users/Dell/Desktop/Ubiqum Data Analytics/IoT/Wi-
                             header = TRUE)
 
 #Changing variables to factors & POSIXct
-varis <- c("FLOOR", "BUILDINGID", "SPACEID", 
-           "RELATIVEPOSITION", "USERID", "PHONEID")
+varis <- c("FLOOR", "BUILDINGID", "SPACEID", "RELATIVEPOSITION", "USERID", "PHONEID")
 for (v in varis){
   train_wide[,v] <- as.factor(train_wide[,v])}
 train_wide$TIMESTAMP <- as.POSIXct(train_wide$TIMESTAMP, origin = "1970-01-01")  
