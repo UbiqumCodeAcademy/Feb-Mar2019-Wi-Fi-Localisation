@@ -7,5 +7,3 @@
 
 **Language used:** R programming
 
-![img_4150](https://user-images.githubusercontent.com/45852632/53869149-e69c8480-3ff7-11e9-84aa-8daf6df15bee.JPG)
-
