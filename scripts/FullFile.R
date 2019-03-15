@@ -19,7 +19,7 @@ setwd("..")
 
 ### Data files 
 
-train_wide <- read.csv("C:/Users/Dell/Desktop/Ubiqum Data Analytics/IoT/Wifi/trainingData.csv",
+train_wide <- read.csv("C:/Users/Dell/Desktop/Ubiqum Data Analytics/IoT/Wifi/trainingData.csv", # Fix your location to relative, otherwise I can't download - read_csv("./DataSets/train.csv") 
                        header = TRUE)
 test_wide <- read.csv("C:/Users/Dell/Desktop/Ubiqum Data Analytics/IoT/Wifi/validationData.csv",
                       header = TRUE)
@@ -516,9 +516,8 @@ pred1 <- as.data.frame(pred)
 A3_Redu_tr_SigW_dum <- A3_Redu_tr_SigW
 
 # Changing 100 (na) to weakest (-105)
-A3_Redu_tr_SigW_dum[,1:393] <- apply(
-  A3_Redu_tr_SigW_dum[,1:393], 2, function(x) ifelse(x == 100, -105, x)
-  )
+
+A3_Redu_tr_SigW_dum[A3_Redu_tr_SigW_dum == 100] <- -105 #shorter
 
 # Normalising
 preprocesswaps <- preProcess(A3_Redu_tr_SigW_dum[,1:393], method = c("range"))
